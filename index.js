@@ -73,8 +73,8 @@ return arr;
 function dataPerCountry (country ,continent) {
      for ( let key in regions[continent]){
           if (regions[continent][key].country == country) {
-            console.log(regions[continent][key].data); 
-            return regions[continent][key].data
+            console.log(regions[continent][key]); 
+            return regions[continent][key]
           }}
 
 }
@@ -94,10 +94,10 @@ regionsAllButton.forEach(btn => {
         document.querySelector('#giveData').addEventListener('click' , () =>{
              let dataaaaa =   dataPerCountry (document.querySelector('#countris-list').value, continent);
 
-               countriesDiv.innerHTML = `<br><br> confirmed = ${dataaaaa.confirmed} <br><br>
-                critical status = ${dataaaaa.critical} <br><br>
-                deaths = ${dataaaaa.deaths} <br><br>
-                recovered cases = ${dataaaaa.recovered}`
+               countriesDiv.innerHTML = `<br>${dataaaaa.country}<br><br> confirmed = ${dataaaaa.data.confirmed} <br><br>
+                critical status = ${dataaaaa.data.critical} <br><br>
+                deaths = ${dataaaaa.data.deaths} <br><br>
+                recovered cases = ${dataaaaa.data.recovered}`
                 
         })
         })
