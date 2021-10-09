@@ -3,7 +3,7 @@
         <input type="button" id="cases" class="btn" value="Confirmed Cases">
         <input type="button" id="recovered" class="btn" value="Number of recovered">
         <input type="button" id="critical" class="btn" value="Number of critical condition">
-        
+      
     </div>
     <div id="continents">
         <input type="button" id="world" class="regions" value="World">
@@ -12,11 +12,28 @@
         <input type="button" id="africa" class="regions" value="Africa">
         <input type="button" id="americas" class="regions" value="Americas">
     </div> */}
+let deathsButton = document.querySelector('#deaths'),
+    casesButton = document.querySelector('#cases'),
+    recoveredButton = document.querySelector('#recovered'),
+    criticalButton = document.querySelector('#critical'),
+    worldButton = document.querySelector('#world'),
+    asiaButton = document.querySelector('#asia'),
+    europeButton = document.querySelector('#europe'),
+    africaButton = document.querySelector('#africa'),
+    americasButton = document.querySelector('#americas'),
+    allButton = document.querySelectorAll('input');
 
 
 let diedNumbers = [];
-let reg = [];
-let diedObj ={}
+let casesNumbers = [];
+let recoveredNumbers = [];
+let criticalNumbers = [];
+let countryData = [];
+let region = [];
+let statusObj ={}
+let casesObj ={}
+let recoveredObj ={}
+let criticalObj ={}
 let x = [];
 let y = [];
 
@@ -93,18 +110,37 @@ function countCritical(obj) {
 }
 
     addEventListener('load' , () => {
+    
     diedNumbers.push(countDeaths (regions.asia))
-    reg.push('asia')
+    region.push('asia')
     diedNumbers.push(countDeaths (regions.europe))
-    reg.push('europe')
+    region.push('europe')
     diedNumbers.push(countDeaths (regions.africa))
-    reg.push('africa')
+    region.push('africa')
     diedNumbers.push(countDeaths (regions.americas))
-    reg.push('americas')
-    diedObj.labels = reg;
-    diedObj.values = diedNumbers
-    diedObj.notes = 'Number of Deaths'
-    chartUpdate(diedObj)
+    region.push('americas')
+    statusObj.labels = region;
+    statusObj.values = diedNumbers
+    statusObj.notes = 'Number of Deaths'
+    chartUpdate(statusObj)
+})
+
+casesButton.addEventListener('click', ()=> {
+    if (myChart) {    myChart.destroy();  }
+    region = [];
+    statusObj ={}
+    casesNumbers.push(countConfirmedCases (regions.asia))
+    region.push('asia')
+    casesNumbers.push(countConfirmedCases (regions.europe))
+    region.push('europe')
+    casesNumbers.push(countConfirmedCases (regions.africa))
+    region.push('africa')
+    casesNumbers.push(countConfirmedCases (regions.americas))
+    region.push('americas')
+    statusObj.labels = region;
+    statusObj.values = casesNumbers
+    statusObj.notes = 'Covid - 19 confirmed cases'
+    chartUpdate(statusObj)
 
 })
 
@@ -118,8 +154,8 @@ function countCritical(obj) {
     
 
 function chartUpdate(obj) {
- const ctx = document.querySelector('.myChart').getContext('2d');
- const myChart = new Chart(ctx, {
+ let ctx = document.querySelector('.myChart').getContext('2d');
+ let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: obj.labels,
@@ -138,6 +174,8 @@ function chartUpdate(obj) {
         }
     },
     
+    
 });
+
 return myChart;
 }
