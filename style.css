@@ -29,9 +29,7 @@ body {
     background :url('/corona.jpg') no-repeat center center/cover;
     
 }
-canvas {
-        
-}
+
 .status {
     width: 100vw;
     padding:50px ; 
