@@ -9,10 +9,12 @@ let deathsButton = document.querySelector('#deaths'),
     africaButton = document.querySelector('#africa'),
     americasButton = document.querySelector('#americas'),
     regionsAllButton = document.querySelectorAll('.regions'),
-    countriesList = document.querySelector('.countries')
+    countriesList = document.querySelector('.countries'),
+    countriesDiv = document.querySelector('.countries-div')
 
 let region = [];
 let statusObj ={}
+let continent=null;
 
 const regions = {
      asia: {},
@@ -50,6 +52,7 @@ async function getData() {
     
 }
 getData()
+console.log(regions);
 function countCases (obj , status){
     let num5 = 0;
     for (let i in obj){
@@ -67,21 +70,39 @@ function getAllCountries (regionName) {
 return arr;
 }
 
-let continent=null;
+function dataPerCountry (country ,continent) {
+     for ( let key in regions[continent]){
+          if (regions[continent][key].country == country) {
+            console.log(regions[continent][key].data); 
+            return regions[continent][key].data
+          }}
+
+}
+
+
 regionsAllButton.forEach(btn => {
     btn.addEventListener('click', function () {
         let obj={}
         continent = this.id
         let doal = getAllCountries(continent)
-        for (let i =0 ; i < doal.length ; i++){
-            addEventListener('click' , function () {
-                console.log('my name is shadi');
-            })
-        }
-        countriesList.innerHTML = `${doal}`
+        let str ='<select name="countris-list" id="countris-list">';
+        doal.forEach( ele => {
+            str += `<option value="${ele}">${ele}</option>`
+        })
+        str += '</select> <input type="button" id="giveData" value="give Data Please">' 
+        countriesList.innerHTML = str;
+        document.querySelector('#giveData').addEventListener('click' , () =>{
+             let dataaaaa =   dataPerCountry (document.querySelector('#countris-list').value, continent);
+
+               countriesDiv.innerHTML = `<br><br> confirmed = ${dataaaaa.confirmed} <br><br>
+                critical status = ${dataaaaa.critical} <br><br>
+                deaths = ${dataaaaa.deaths} <br><br>
+                recovered cases = ${dataaaaa.recovered}`
+                
+        })
+        })
       
     })
-})
 function getAllWorldData(status){
     
    
