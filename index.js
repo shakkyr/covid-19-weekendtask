@@ -1,19 +1,6 @@
-{/* <div class="status">
-        <input type="button" id="deaths" class="btn" value="Number of Deaths">
-        <input type="button" id="cases" class="btn" value="Confirmed Cases">
-        <input type="button" id="recovered" class="btn" value="Number of recovered">
-        <input type="button" id="critical" class="btn" value="Number of critical condition">
-      
-    </div>
-    <div id="continents">
-        <input type="button" id="world" class="regions" value="World">
-        <input type="button" id="asia" class="regions" value="Asia">
-        <input type="button" id="europe" class="regions" value="Europe">
-        <input type="button" id="africa" class="regions" value="Africa">
-        <input type="button" id="americas" class="regions" value="Americas">
-    </div> */}
+
 let deathsButton = document.querySelector('#deaths'),
-    casesButton = document.querySelector('#cases'),
+    confirmedButton = document.querySelector('#confirmed'),
     recoveredButton = document.querySelector('#recovered'),
     criticalButton = document.querySelector('#critical'),
     worldButton = document.querySelector('#world'),
@@ -21,32 +8,18 @@ let deathsButton = document.querySelector('#deaths'),
     europeButton = document.querySelector('#europe'),
     africaButton = document.querySelector('#africa'),
     americasButton = document.querySelector('#americas'),
-    allButton = document.querySelectorAll('input');
+    regionsAllButton = document.querySelectorAll('.regions'),
+    countriesList = document.querySelector('.countries')
 
-
-let diedNumbers = [];
-let casesNumbers = [];
-let recoveredNumbers = [];
-let criticalNumbers = [];
-let countryData = [];
 let region = [];
 let statusObj ={}
-let casesObj ={}
-let recoveredObj ={}
-let criticalObj ={}
-let x = [];
-let y = [];
-
-
 
 const regions = {
-    world: {},
-    asia: {},
+     asia: {},
     europe: {},
     africa: {},
     americas: {},
 };
-
 
 async function getData() {
     if (!localStorage.getItem("tempStorage")) {
@@ -59,7 +32,7 @@ async function getData() {
 
     data.data2.forEach(ele => {
         data.data1.data.forEach(element => {
-            regions.world[ele.cca2] = { country: ele.name.common };
+            
             
             if (ele.region === "Asia" && element.code == ele.cca2) {
                 regions.asia[ele.cca2] = { country: ele.name.common, data: element.latest_data };
@@ -79,76 +52,106 @@ async function getData() {
 getData()
 console.log(regions);
 console.log(regions.asia['IL']);
+function countCases (obj , status){
+    let num5 = 0;
+    for (let i in obj){
+    num5 += obj[i].data[status];
+    }}
 
-function countDeaths (obj) {
-    let num1 = 0;
-    for (let i in obj){
-    num1 += obj[i].data.deaths;
-    }
-    return num1
-}
-function countConfirmedCases (obj) {
-    let num2 = 0;
-    for (let i in obj){
-    num2 += obj[i].data.confirmed;
-    }
-    return num2
-}
-function countRecovered (obj) {
-    let num3 = 0;
-    for (let i in obj){
-    num3 += obj[i].data.recovered;
-    }
-    return num3
-}
-function countCritical(obj) {
-    let num4 = 0;
-    for (let i in obj){
-    num4 += obj[i].data.critical;
-    }
-    return num4
+function getAllCountries (regionName) {
+    // Asia 
+    let obj = regions[regionName];
+    let arr=[]
+    for (let country in obj){
+     arr.push(obj[country].country)
+     
+        }
+return arr;
 }
 
-    addEventListener('load' , () => {
-    
-    diedNumbers.push(countDeaths (regions.asia))
-    region.push('asia')
-    diedNumbers.push(countDeaths (regions.europe))
-    region.push('europe')
-    diedNumbers.push(countDeaths (regions.africa))
-    region.push('africa')
-    diedNumbers.push(countDeaths (regions.americas))
-    region.push('americas')
-    statusObj.labels = region;
-    statusObj.values = diedNumbers
-    statusObj.notes = 'Number of Deaths'
-    chartUpdate(statusObj)
+
+let continent=null;
+regionsAllButton.forEach(btn => {
+    btn.addEventListener('click', function () {
+        let obj={}
+        continent = this.id
+        countriesList.innerHTML = `${this.id}`
+      
+    })
 })
 
-casesButton.addEventListener('click', ()=> {
+
+function getAllWorldData(status){
     
-    region = [];
-    statusObj ={}
-    casesNumbers.push(countConfirmedCases (regions.asia))
-    region.push('asia')
-    casesNumbers.push(countConfirmedCases (regions.europe))
-    region.push('europe')
-    casesNumbers.push(countConfirmedCases (regions.africa))
-    region.push('africa')
-    casesNumbers.push(countConfirmedCases (regions.americas))
-    region.push('americas')
-    statusObj.labels = region;
-    statusObj.values = casesNumbers
-    statusObj.notes = 'Covid - 19 confirmed cases'
+  let arr=[]
+  for(let region in regions){
+
+      arr.push((getRegionData(status,region).reduce((total,current)=>total+current)))
+  }
+ statusObj.labels=Object.keys(regions)
+ statusObj.values=arr;
+ statusObj.notes=status
+ console.log(statusObj);
+chartUpdate(statusObj)
+}
+
+
+function getRegionData(status,continent){
+    let obj=regions[continent];
+   let arr=[]
+
+for(let country in obj){
+
+    arr.push(obj[country].data[status]);
+}
+return arr;
+
+}
+function caseData(status){
+    statusObj.labels=getAllCountries(continent)
+    statusObj.notes = status
+    statusObj.values=getRegionData(status,continent)
     chartUpdate(statusObj)
+}
+
+   deathsButton.addEventListener('click' , () => {
+       console.log(continent);
+    if(continent=='world')
+    getAllWorldData('deaths')
+    else
+    caseData('deaths')
+  
+})
+
+confirmedButton.addEventListener('click', ()=> {
+    if(continent=='world')
+    getAllWorldData('confirmed')
+    else
+    caseData('confirmed')
+
+
+})
+recoveredButton.addEventListener('click', ()=> {
+    if(continent=='world')
+    getAllWorldData('recovered')
+    else
+    caseData('recovered')
+
+})
+criticalButton.addEventListener('click', ()=> {
+    if(continent=='world')
+    getAllWorldData('critical')
+    else
+    caseData('critical')
 
 })
 
 
 let myChart;
 function chartUpdate(obj) {
-    if (myChart)
-  myChart.destroy()
+  
+    if(myChart)
+    myChart.destroy()
  let ctx = document.querySelector('#myChart').getContext('2d');
     myChart = new Chart(ctx, {
     type: 'bar',
@@ -169,6 +172,6 @@ function chartUpdate(obj) {
         }
     }, 
 });
-
-return myChart;
+  
 }
+addEventListener('load', getAllWorldData('deaths'))
