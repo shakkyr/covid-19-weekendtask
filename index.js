@@ -126,7 +126,7 @@ function countCritical(obj) {
 })
 
 casesButton.addEventListener('click', ()=> {
-    if (myChart) {    myChart.destroy();  }
+    
     region = [];
     statusObj ={}
     casesNumbers.push(countConfirmedCases (regions.asia))
@@ -145,17 +145,12 @@ casesButton.addEventListener('click', ()=> {
 })
 
 
-// Confirmed Cases
-// - Number of Deaths
-// - Number of recovered
-// - Number of critical cond
-
-
-    
-
+let myChart;
 function chartUpdate(obj) {
- let ctx = document.querySelector('.myChart').getContext('2d');
- let myChart = new Chart(ctx, {
+    if (myChart)
+  myChart.destroy()
+ let ctx = document.querySelector('#myChart').getContext('2d');
+    myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: obj.labels,
@@ -172,9 +167,7 @@ function chartUpdate(obj) {
                 beginAtZero: true
             }
         }
-    },
-    
-    
+    }, 
 });
 
 return myChart;
