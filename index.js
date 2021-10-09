@@ -94,10 +94,10 @@ regionsAllButton.forEach(btn => {
         document.querySelector('#giveData').addEventListener('click' , () =>{
              let dataaaaa =   dataPerCountry (document.querySelector('#countris-list').value, continent);
 
-               countriesDiv.innerHTML = `<br>${dataaaaa.country}<br><br> confirmed = ${dataaaaa.data.confirmed} <br><br>
-                critical status = ${dataaaaa.data.critical} <br><br>
-                deaths = ${dataaaaa.data.deaths} <br><br>
-                recovered cases = ${dataaaaa.data.recovered}`
+               countriesDiv.innerHTML = `<br><h1>${dataaaaa.country}</h1><br><br> <span>confirmed =</span> ${dataaaaa.data.confirmed} <br><br>
+               <span>critical status =</span> ${dataaaaa.data.critical} <br><br>
+               <span>deaths =</span>  ${dataaaaa.data.deaths} <br><br>
+               <span>recovered cases =</span>  ${dataaaaa.data.recovered}`
                 
         })
         })
@@ -190,7 +190,8 @@ function chartUpdate(obj) {
     options: {
         scales: {
             y: {
-                beginAtZero: true
+                beginAtZero: true,
+                
             }
         }
     }, 

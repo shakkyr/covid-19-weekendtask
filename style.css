@@ -16,8 +16,71 @@
 <div class="countries"></div>
 <div class="countries-div"></div> */
 
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+html{
+    height: 100vh;
+}
 
+body {
+    background :url('/corona.jpg') no-repeat center center/cover;
+    
+}
+canvas {
+        
+}
 .status {
     width: 100vw;
+    padding:50px ;   
+}
 
+#continents{
+    width: 100vw;
+    padding:0 50px ;
+    text-align: center; 
+}
+input {
+    padding: 5px;
+    margin: 2%;
+}
+input:hover{
+
+    scale: 5;
+    color: teal;
+    background: rgb(31, 20, 18);
+}
+
+.countries {
+    text-align: center;
+}
+
+.countries-div {
+    text-align: center;
+    width: 100vw;
+
+}
+
+h1 {
+    color: teal;
+}
+span{
+    color: #1F618D;
+    font: 1.3em sans-serif;
+}
+select {
+    width: 30%;
+    height: 5%;
+    color: royalblue;
+}
+#giveData {
+    background:grey;
+    color: cornsilk;
+}
+#giveData:hover {
+    color: teal;
+    background: rgb(31, 20, 18);
+    scale: 2;
 }
