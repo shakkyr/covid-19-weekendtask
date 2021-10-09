@@ -50,8 +50,6 @@ async function getData() {
     
 }
 getData()
-console.log(regions);
-console.log(regions.asia['IL']);
 function countCases (obj , status){
     let num5 = 0;
     for (let i in obj){
@@ -69,20 +67,24 @@ function getAllCountries (regionName) {
 return arr;
 }
 
-
 let continent=null;
 regionsAllButton.forEach(btn => {
     btn.addEventListener('click', function () {
         let obj={}
         continent = this.id
-        countriesList.innerHTML = `${this.id}`
+        let doal = getAllCountries(continent)
+        for (let i =0 ; i < doal.length ; i++){
+            addEventListener('click' , function () {
+                console.log('my name is shadi');
+            })
+        }
+        countriesList.innerHTML = `${doal}`
       
     })
 })
-
-
 function getAllWorldData(status){
     
+   
   let arr=[]
   for(let region in regions){
 
