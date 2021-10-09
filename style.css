@@ -34,7 +34,11 @@ canvas {
 }
 .status {
     width: 100vw;
-    padding:50px ;   
+    padding:50px ; 
+    text-align: center;  
+}
+.btn {
+    background: orange;
 }
 
 #continents{
